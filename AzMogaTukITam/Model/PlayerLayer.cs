@@ -26,17 +26,9 @@ namespace AzMogaTukITam.Model
             PlayerName = pn;
         }
 
-        public void PlaceQueen(int row, int col, Grid grid)
-        {
-            if (CanPlaceQueen(row, col, grid))
-            {
-                MarkPositions(row, col);
-            }
-        }
-
         private bool CanPlaceQueen(int row, int col, Grid grid)
         {
-            if (grid.Layers.Where(x => x is PlayerLayer && x.LayerID != LayerID) is IEnumerable<PlayerLayer>
+            if (grid.Layers.Where(x => x is PlayerLayer && x.LayerID != LayerID).Cast<PlayerLayer>().ToArray() is PlayerLayer[]
                 playerLayers)
                 foreach (var layer in playerLayers)
                 {
@@ -70,7 +62,6 @@ namespace AzMogaTukITam.Model
             AttackedColumns.Add(col);
             AttackedLeftDiagonals.Add(col - row);
             AttackedRightDiagonals.Add(col + row);
-            Data[row, col] = true;
         }
 
         public override int ZIndex { get; protected set; } = 1;
@@ -110,9 +101,16 @@ namespace AzMogaTukITam.Model
                     selectedLayer.MoveCurrentPointer(new Coordinates() { X = -1 });
                     break;
                 case ConsoleKey.Enter:
-                    // Check for safe 
+                    if (!CanPlaceQueen(selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X, game.Grid))
+                    {
+                        game.DrawMessage($"{PlayerName} shall not be placing here!", 2000);
+                        break;
+                    }
+                    MarkPositions(selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X);
                     this.Data[selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X] = true;
-                    // Block
+                    var blockLayer = (BlockLayer)game.Grid.Layers.First(l => l is BlockLayer);
+                   //foreach (var Coord in )
+                   
                     this.OnTurnDone();
                     if (_currentTurn <= this.RequiredTurns +1)
                         selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width/2 });
