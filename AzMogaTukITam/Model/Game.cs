@@ -1,15 +1,12 @@
-﻿
-namespace AzMogaTukITam.Model
+﻿namespace AzMogaTukITam.Model
 {
-
     public class Game
     {
-
         public const int FRAME_TIME = 100;
 
-        private int currentTurn = 0;
-        private bool gameEnded = false;
-        private Action gameEndedAction = () => { };
+        private int _currentTurn;
+        private bool _gameEnded;
+        private Action _gameEndedAction = () => { };
 
         public Game(int gridHeight, int gridWidth, GameContext cont)
         {
@@ -23,14 +20,15 @@ namespace AzMogaTukITam.Model
 
         public void Update()
         {
-            LayerBase[] consoleLayers = this.Grid.Layers.Where(x => x.RequiredTurns > 0).OrderBy(x => x.ConsolePriority).ThenBy(x => x.ZIndex).ThenBy(x => x.LayerID).ToArray();
+            LayerBase[] consoleLayers = this.Grid.Layers.Where(x => x.RequiredTurns > 0).OrderBy(x => x.ConsolePriority)
+                .ThenBy(x => x.ZIndex).ThenBy(x => x.LayerID).ToArray();
             if (consoleLayers is not null)
             {
                 foreach (LayerBase consoleLayer in consoleLayers)
                 {
-                    this.currentTurn = 0;
+                    this._currentTurn = 0;
                     consoleLayer.TurnDone += TurnHandler;
-                    while(currentTurn != consoleLayer.RequiredTurns - 1)
+                    while (_currentTurn != consoleLayer.RequiredTurns - 1)
                     {
                         var input = Console.ReadKey();
                         consoleLayer.ConsoleAction?.Invoke(this, input);
@@ -39,8 +37,9 @@ namespace AzMogaTukITam.Model
 
                         Console.Clear();
                         this.DrawGrid();
-                        if (this.gameEnded) return;
+                        if (this._gameEnded) return;
                     }
+
                     consoleLayer.TurnDone -= TurnHandler;
                 }
             }
@@ -50,27 +49,29 @@ namespace AzMogaTukITam.Model
             }
         }
 
-        private void TurnHandler(object temp, EventArgs args){
-            currentTurn ++;
+        private void TurnHandler(object temp, EventArgs args)
+        {
+            _currentTurn++;
         }
 
         public void Start()
         {
             Console.Clear();
-            while (!this.gameEnded)
+            while (!this._gameEnded)
             {
                 Console.Clear();
                 this.DrawGrid();
                 this.Update();
                 Thread.Sleep(FRAME_TIME);
             }
-            gameEndedAction?.Invoke();
+
+            _gameEndedAction?.Invoke();
         }
 
         public void EndGame(Action endAction)
         {
-            this.gameEnded = true;
-            this.gameEndedAction = endAction;
+            this._gameEnded = true;
+            this._gameEndedAction = endAction;
         }
 
         private void DrawGrid()
@@ -85,20 +86,18 @@ namespace AzMogaTukITam.Model
                     Console.ForegroundColor = dv.DisplayForeground;
                     Console.Write(dv.Value);
                 }
+
                 Console.WriteLine();
             }
         }
 
         private void DrawMessage(string message, int duration)
         {
-            
             Console.Clear();
-            System.Console.WriteLine($"{Environment.NewLine}{Environment.NewLine}{message}{Environment.NewLine}{Environment.NewLine}");
+            Console.WriteLine(
+                $"{Environment.NewLine}{Environment.NewLine}{message}{Environment.NewLine}{Environment.NewLine}");
             this.DrawGrid();
             Thread.Sleep(duration);
-               
         }
-
     }
-
 }
