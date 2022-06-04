@@ -6,5 +6,12 @@ namespace AzMogaTukITam.Model
     {
         public int Y { get; set; }
         public int X { get; set; }
+        
+        public Coordinates(){}
+        public Coordinates(int y, int x)
+        {
+            Y = y;
+            X = x;
+        }
     }
 }
