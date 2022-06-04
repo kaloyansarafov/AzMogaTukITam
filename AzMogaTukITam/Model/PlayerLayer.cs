@@ -5,17 +5,13 @@ namespace AzMogaTukITam.Model
     public class PlayerLayer : LayerBase
     {
 
-        public PlayerLayer(Grid grid) : base(grid)
-        {
-            for (int y = 0; y < this.Data.GetLength(0); y++)
-                for (int x = 0; x < this.Data.GetLength(1); x++)
-                    this.Data[y, x] = true;
-        }
+        public PlayerLayer(Grid grid) : base(grid) {}
 
-        public PlayerLayer(Grid grid, DisplayValue dv, string pn) : this(grid)
+        public PlayerLayer(Grid grid, DisplayValue dv, string pn, Cordinates startPosition) : this(grid)
         {
             this.DisplayValue = dv;
             this.PlayerName = pn;
+            this.Data[startPosition.Y, startPosition.X] = true;
         }
 
         public override int ZIndex { get; protected set; } = 0;

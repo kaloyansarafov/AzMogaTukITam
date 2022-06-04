@@ -11,7 +11,7 @@ public class SelectedLayer : LayerBase
         : base(grid)
     {}
 
-    public override int ZIndex { get; protected set; } = 100;
+    public override int ZIndex { get; protected set; } = 200;
     public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() { Value = '+', DisplayBackground = ConsoleColor.DarkCyan, DisplayForeground = ConsoleColor.White };
     public override bool[,] Data { get; protected set; }
     public override int ConsolePriority { get; protected set; }
