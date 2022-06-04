@@ -61,6 +61,7 @@ static int[] ReadGridSize()
 
 static void PrintLogo()
 {
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine(@"
          _______                   _____                    _____                    _____                    _____                    _____          
         /::\    \                 /\    \                  /\    \                  /\    \                  /\    \                  /\    \         
@@ -85,4 +86,5 @@ static void PrintLogo()
          ~~                       ~~                       \/____/                  \/____/                  \/____/                  \/____/         
                                                                                                                                                       
 ");
+    Console.ForegroundColor = ConsoleColor.White;
 }
