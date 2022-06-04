@@ -1,4 +1,4 @@
-namespace AzMogaTukITam.Model
+﻿namespace AzMogaTukITam.Model
 {
     public sealed class PlayerLayer : LayerBase
     {
@@ -65,7 +65,7 @@ namespace AzMogaTukITam.Model
         }
 
         public override int ZIndex { get; protected set; } = 150;
-        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = 'X'};
+        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = '⚪' };
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
         public override int RequiredTurns { get; protected set; } = 1;
@@ -125,8 +125,9 @@ namespace AzMogaTukITam.Model
 
                     this.OnTurnDone();
 
-                    if (_currentTurn <= this.RequiredTurns +1)
-                        selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width/2 });
+                    if (_currentTurn <= this.RequiredTurns + 1)
+                        selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width / 2 });
+                    else _currentTurn = 0;
                     break;
                 default:
                     break;
