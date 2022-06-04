@@ -109,7 +109,7 @@ namespace AzMogaTukITam.Model
                     MarkPositions(selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X);
                     this.Data[selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X] = true;
                     var blockLayer = (BlockLayer)game.Grid.Layers.First(l => l is BlockLayer);
-                   //foreach (var Coord in )
+                    ///foreach (var Coord in )
                    
                     this.OnTurnDone();
                     if (_currentTurn <= this.RequiredTurns +1)
