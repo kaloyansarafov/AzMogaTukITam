@@ -56,7 +56,7 @@
         public void Start()
         {
             Console.Clear();
-            DrawMessage("Press any button to start as a player! Use Arrow Keys! This message will dissappear in 10 seconds!", 10000);
+            DrawMessage("Press any button to start as a player! Use Arrow Keys! This message will dissappear in 5 seconds!", 5000);
             while (!this._gameEnded)
             {
                 Console.Clear();
