@@ -39,7 +39,7 @@ namespace AzMogaTukITam.Model
 
                         // TODO: FIX
 
-                        Console.SetCursorPosition(Console.CursorLeft - this.Grid.Width, Console.CursorTop - this.Grid.Height);
+                        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - this.Grid.Height);
                         this.DrawGrid();
                         if (this.gameEnded) return;
                     }
@@ -57,7 +57,7 @@ namespace AzMogaTukITam.Model
             {
                 this.DrawGrid();
                 this.Update();
-                Console.SetCursorPosition(Console.CursorLeft - this.Grid.Width, Console.CursorTop - this.Grid.Height);
+                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - this.Grid.Height);
                 Thread.Sleep(FRAME_TIME);
             }
             gameEndedAction?.Invoke();
@@ -83,6 +83,13 @@ namespace AzMogaTukITam.Model
                 }
                 Console.WriteLine();
             }
+               
+        }
+
+        private void DrawMessage(string message, int duration)
+        {
+            
+            
                
         }
 
