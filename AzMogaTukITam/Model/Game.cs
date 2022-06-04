@@ -77,18 +77,23 @@
         private void DrawGrid()
         {
             var tempGrid = this.Grid.ConstructGrid();
-            for (int y = 0; y < tempGrid.GetLength(0); y++)
+            int rows = tempGrid.GetLength(0);
+            int cols = tempGrid.GetLength(1);
+
+            Console.WriteLine($".-{new string('-', (cols * 2) - 1)}-.");
+            for (int y = 0; y < rows; y++)
             {
-                for (int x = 0; x < tempGrid.GetLength(1); x++)
+                Console.Write("| ");
+                for (int x = 0; x < cols; x++)
                 {
                     var dv = tempGrid[y, x];
                     Console.BackgroundColor = dv.DisplayBackground;
                     Console.ForegroundColor = dv.DisplayForeground;
-                    Console.Write(dv.Value);
+                    Console.Write($"{dv.Value} ");
                 }
-
-                Console.WriteLine();
+                Console.WriteLine("|");
             }
+            Console.WriteLine($".-{new string('-', (cols * 2) - 1)}-.");
         }
 
         private void DrawMessage(string message, int duration)
