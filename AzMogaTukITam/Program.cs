@@ -1,7 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Threading.Channels;
-using AzMogaTukITam.Model;
+﻿using AzMogaTukITam.Model;
 
 Console.WriteLine(@"
          _______                   _____                    _____                    _____                    _____                    _____          
