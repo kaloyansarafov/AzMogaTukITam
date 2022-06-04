@@ -35,6 +35,11 @@ int[] gridSize = ReadGridSize();
 switch (selection)
 {
     case "1":
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.WriteLine("Sry, not implemented!");
+        Console.ForegroundColor = ConsoleColor.White;
+        break;
+    case "2":
         Game mainGame = new Game(gridSize[0], gridSize[1], new GameContext());
         mainGame.Grid.Layers.Add(new BaseLayer(mainGame.Grid));
         mainGame.Grid.Layers.Add(new BlockLayer(mainGame.Grid));
@@ -42,8 +47,6 @@ switch (selection)
         mainGame.Grid.Layers.Add(new PlayerLayer(mainGame.Grid, new DisplayValue() { DisplayBackground = ConsoleColor.DarkRed, DisplayForeground = ConsoleColor.White }, "Player 2"));
         mainGame.Grid.Layers.Add(new SelectedLayer(mainGame.Grid));
         mainGame.Start();
-        break;
-    case "2":
         break;
     case "3":
         break;
@@ -55,17 +58,17 @@ switch (selection)
 
 static int[] ReadGridSize()
 {
-    Console.WriteLine("Please enter grid size in the format 'height,width'");
-    var gridSize = Console.ReadLine();
-    var gridSizeArray = gridSize.Split(',');
-    int height = Int32.Parse(gridSizeArray[0]);
-    int width = Int32.Parse(gridSizeArray[1]);
-
-    if (height < 3 || width < 3)
+    while (true)
     {
-        Console.WriteLine("Grid size must be at least 3x3");
-        ReadGridSize();
+        try
+        {
+            Console.WriteLine("Grid must be at least 3x3 and up to 20x20!");
+            var sizes = Console.ReadLine().Split(",").Select(int.Parse).ToArray();
+            if (sizes.Length != 2 || sizes.Any(x => x > 21 || x < 3)) throw new Exception();
+            return sizes;
+        }
+        catch (Exception ex)
+        {
+        }
     }
-
-    return new[] {height, width};
 }
