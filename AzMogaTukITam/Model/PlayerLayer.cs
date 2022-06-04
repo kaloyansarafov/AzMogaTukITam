@@ -2,16 +2,12 @@ namespace AzMogaTukITam.Model
 {
     public sealed class PlayerLayer : LayerBase
     {
-        private int _currentTurn = 0;
+        public HashSet<int> AttackedRows = new();
+        public HashSet<int> AttackedColumns = new();
+        public HashSet<int> AttackedLeftDiagonals = new();
+        public HashSet<int> AttackedRightDiagonals = new();
 
-        public static HashSet<int> _attackedRows = new HashSet<int>();
-        public static HashSet<int> _attackedColumns = new HashSet<int>();
-        public static HashSet<int> _attackedLeftDiagonals = new HashSet<int>();
-        public static HashSet<int> _attackedRightDiagonals = new HashSet<int>();
-        public HashSet<int> AttackedRows = new HashSet<int>();
-        public HashSet<int> AttackedColumns = new HashSet<int>();
-        public HashSet<int> AttackedLeftDiagonals = new HashSet<int>();
-        public HashSet<int> AttackedRightDiagonals = new HashSet<int>();
+        int _currentTurn = 0;
 
         private PlayerLayer(Grid grid) : base(grid)
         {
@@ -64,8 +60,29 @@ namespace AzMogaTukITam.Model
             AttackedRightDiagonals.Add(col + row);
         }
 
+        private void ReturnAttackedCoordinates(Grid grid)
+        {
+            List<Coordinates> attackedCoordinates = new();
+
+            foreach (int row in AttackedRows)
+            {
+                for (int i = 0; i < grid.Width; i++)
+                {
+                    attackedCoordinates.Add(new Coordinates(row, i));
+                }
+            }
+
+            foreach (int col in AttackedColumns)
+            {
+                for (int i = 0; i < grid.Height; i++)
+                {
+                    attackedCoordinates.Add(new Coordinates(i, col));
+                }
+            }
+        }
+
         public override int ZIndex { get; protected set; } = 1;
-        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() { Value = 'X' };
+        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = 'X'};
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
         public override int RequiredTurns { get; protected set; } = 1;
@@ -109,7 +126,7 @@ namespace AzMogaTukITam.Model
                     MarkPositions(selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X);
                     this.Data[selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X] = true;
                     var blockLayer = (BlockLayer)game.Grid.Layers.First(l => l is BlockLayer);
-                    ///foreach (var Coord in )
+                    ///foreach (var Coord in Get)
                    
                     this.OnTurnDone();
                     if (_currentTurn <= this.RequiredTurns +1)
