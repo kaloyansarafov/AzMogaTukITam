@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AzMogaTukITam.Model
 {
-    public class Cordinates
+    public class Coordinates
     {
 
         public int Y { get; set; }

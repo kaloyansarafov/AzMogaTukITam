@@ -22,6 +22,13 @@ namespace AzMogaTukITam.Model
             this.PlayerName = pn;
         }
 
+        public void PlaceQueen(int row, int col, Grid grid)
+        {
+            if (CanPlaceQueen(row, col, grid))
+            {
+                MarkPositions(row, col);
+            }
+        }
         private bool CanPlaceQueen(int row, int col, Grid grid)
         {
             var playerLayers = grid.Layers

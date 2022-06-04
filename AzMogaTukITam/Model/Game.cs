@@ -83,7 +83,6 @@ namespace AzMogaTukITam.Model
                 }
                 Console.WriteLine();
             }
-               
         }
 
         private void DrawMessage(string message, int duration)
