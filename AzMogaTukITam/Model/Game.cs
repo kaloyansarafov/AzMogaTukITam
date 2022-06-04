@@ -72,6 +72,9 @@ namespace AzMogaTukITam.Model
         private void DrawGrid()
         {
             var tempGrid = this.Grid.ConstructGrid();
+
+            Console.WriteLine($".-{new string('-', tempGrid.GetLength(1))}-.");
+
             for (int y = 0; y < tempGrid.GetLength(0); y++)
             {
                 for (int x = 0; x < tempGrid.GetLength(1); x++)
@@ -83,7 +86,8 @@ namespace AzMogaTukITam.Model
                 }
                 Console.WriteLine();
             }
-               
+
+            //Console.WriteLine($".-{new string('-', tempGrid.GetLength(1))}-.");
         }
 
         private void DrawMessage(string message, int duration)
