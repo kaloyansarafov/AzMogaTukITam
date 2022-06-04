@@ -7,6 +7,8 @@ namespace AzMogaTukITam.Model
         public HashSet<int> AttackedLeftDiagonals = new();
         public HashSet<int> AttackedRightDiagonals = new();
 
+        int _currentTurn = 0;
+
         private PlayerLayer(Grid grid) : base(grid)
         {
         }
@@ -15,7 +17,6 @@ namespace AzMogaTukITam.Model
         {
             DisplayValue = dv;
             PlayerName = pn;
-            Data[startPosition.Y, startPosition.X] = true;
         }
 
         public void PlaceQueen(int row, int col, Grid grid)
@@ -86,7 +87,7 @@ namespace AzMogaTukITam.Model
             }
         }
 
-        public override int ZIndex { get; protected set; } = 0;
+        public override int ZIndex { get; protected set; } = 1;
         public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = 'X'};
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
