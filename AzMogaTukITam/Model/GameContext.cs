@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AzMogaTukITam.Model
+﻿namespace AzMogaTukITam.Model
 {
     public class GameContext
     {

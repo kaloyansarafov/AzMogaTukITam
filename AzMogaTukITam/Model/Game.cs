@@ -1,7 +1,4 @@
 ﻿
-using System;
-using System.Linq;
-
 namespace AzMogaTukITam.Model
 {
 
@@ -90,7 +87,6 @@ namespace AzMogaTukITam.Model
                 }
                 Console.WriteLine();
             }
-               
         }
 
         private void DrawMessage(string message, int duration)
