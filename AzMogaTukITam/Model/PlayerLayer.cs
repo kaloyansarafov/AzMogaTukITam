@@ -2,10 +2,10 @@ namespace AzMogaTukITam.Model
 {
     public sealed class PlayerLayer : LayerBase
     {
-        public HashSet<Coordinates> AttackedRows = new();
-        public HashSet<Coordinates> AttackedColumns = new();
-        public HashSet<Coordinates> AttackedLeftDiagonals = new();
-        public HashSet<Coordinates> AttackedRightDiagonals = new();
+        public HashSet<int> AttackedRows = new();
+        public HashSet<int> AttackedColumns = new();
+        public HashSet<int> AttackedLeftDiagonals = new();
+        public HashSet<int> AttackedRightDiagonals = new();
 
         private PlayerLayer(Grid grid) : base(grid)
         {
@@ -63,6 +63,27 @@ namespace AzMogaTukITam.Model
             AttackedLeftDiagonals.Add(col - row);
             AttackedRightDiagonals.Add(col + row);
             Data[row, col] = true;
+        }
+
+        private void ReturnAttackedCoordinates(Grid grid)
+        {
+            List<Coordinates> attackedCoordinates = new();
+
+            foreach (int row in AttackedRows)
+            {
+                for (int i = 0; i < grid.Width; i++)
+                {
+                    attackedCoordinates.Add(new Coordinates(row, i));
+                }
+            }
+
+            foreach (int col in AttackedColumns)
+            {
+                for (int i = 0; i < grid.Height; i++)
+                {
+                    attackedCoordinates.Add(new Coordinates(i, col));
+                }
+            }
         }
 
         public override int ZIndex { get; protected set; } = 0;
