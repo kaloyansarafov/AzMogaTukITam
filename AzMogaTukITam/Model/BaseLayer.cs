@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AzMogaTukITam.Model
+﻿namespace AzMogaTukITam.Model
 {
     public class BaseLayer : LayerBase
     {
@@ -13,7 +11,7 @@ namespace AzMogaTukITam.Model
         }
 
         public override int ZIndex { get; protected set; } = 0;
-        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue();
+        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() { Value =' ' };
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
         public override int RequiredTurns { get; protected set; } = 0;

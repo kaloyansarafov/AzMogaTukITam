@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AzMogaTukITam.Model
+﻿namespace AzMogaTukITam.Model
 {
     public abstract class LayerBase
     {

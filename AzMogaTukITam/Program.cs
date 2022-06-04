@@ -1,7 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Threading.Channels;
-using AzMogaTukITam.Model;
+﻿using AzMogaTukITam.Model;
 
 Console.WriteLine(@"
          _______                   _____                    _____                    _____                    _____                    _____          
@@ -40,7 +37,7 @@ switch (selection)
  case "1":
   Game mainGame = new Game(gridSize[0], gridSize[1], new GameContext());
   mainGame.Grid.Layers.Add(new BaseLayer(mainGame.Grid));
-  mainGame.Grid.Layers.Add(new PlayerLayer(mainGame.Grid, new DisplayValue(){ DisplayBackground = ConsoleColor.DarkRed }, "Player 1"));
+  mainGame.Grid.Layers.Add(new PlayerInitLayer(mainGame.Grid));
   mainGame.Grid.Layers.Add(new SelectedLayer(mainGame.Grid));
   mainGame.Start();
   break;

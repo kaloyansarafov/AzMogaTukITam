@@ -1,7 +1,4 @@
 ﻿
-using System;
-using System.Linq;
-
 namespace AzMogaTukITam.Model
 {
 
@@ -10,6 +7,7 @@ namespace AzMogaTukITam.Model
 
         public const int FRAME_TIME = 100;
 
+        private int currentTurn = 0;
         private bool gameEnded = false;
         private Action gameEndedAction = () => { };
 
@@ -30,19 +28,20 @@ namespace AzMogaTukITam.Model
             {
                 foreach (LayerBase consoleLayer in consoleLayers)
                 {
-                    var currTurns = 0;
-                    consoleLayer.TurnDone += (object temp, EventArgs args) => currTurns++;
-                    while(currTurns != consoleLayer.RequiredTurns)
+                    this.currentTurn = 0;
+                    consoleLayer.TurnDone += TurnHandler;
+                    while(currentTurn != consoleLayer.RequiredTurns - 1)
                     {
                         var input = Console.ReadKey();
                         consoleLayer.ConsoleAction?.Invoke(this, input);
 
                         // TODO: FIX
 
-                        Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - this.Grid.Height);
+                        Console.Clear();
                         this.DrawGrid();
                         if (this.gameEnded) return;
                     }
+                    consoleLayer.TurnDone -= TurnHandler;
                 }
             }
             else
@@ -51,13 +50,18 @@ namespace AzMogaTukITam.Model
             }
         }
 
+        private void TurnHandler(object temp, EventArgs args){
+            currentTurn ++;
+        }
+
         public void Start()
         {
+            Console.Clear();
             while (!this.gameEnded)
             {
+                Console.Clear();
                 this.DrawGrid();
                 this.Update();
-                Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - this.Grid.Height);
                 Thread.Sleep(FRAME_TIME);
             }
             gameEndedAction?.Invoke();
@@ -72,9 +76,6 @@ namespace AzMogaTukITam.Model
         private void DrawGrid()
         {
             var tempGrid = this.Grid.ConstructGrid();
-
-            Console.WriteLine($".-{new string('-', tempGrid.GetLength(1))}-.");
-
             for (int y = 0; y < tempGrid.GetLength(0); y++)
             {
                 for (int x = 0; x < tempGrid.GetLength(1); x++)
@@ -86,14 +87,15 @@ namespace AzMogaTukITam.Model
                 }
                 Console.WriteLine();
             }
-
-            //Console.WriteLine($".-{new string('-', tempGrid.GetLength(1))}-.");
         }
 
         private void DrawMessage(string message, int duration)
         {
             
-            
+            Console.Clear();
+            System.Console.WriteLine($"{Environment.NewLine}{Environment.NewLine}{message}{Environment.NewLine}{Environment.NewLine}");
+            this.DrawGrid();
+            Thread.Sleep(duration);
                
         }
 
