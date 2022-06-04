@@ -4,19 +4,19 @@ namespace AzMogaTukITam.Model
 {
     public class PlayerInitLayer : LayerBase
     {
-
         private int currentTurn = 0;
         private bool inited = false;
 
         public PlayerInitLayer(Grid grid) : base(grid)
         {
+        }
 
             this.ConsoleAction = SelectPosition;
 
         }
 
         public override int ZIndex { get; protected set; } = 1;
-        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() { Value = ' ' } ;
+        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = ' '};
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
         public override int RequiredTurns { get; protected set; } = 2;
@@ -37,16 +37,16 @@ namespace AzMogaTukITam.Model
             switch (keyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
-                    selectedLayer.MoveCurrentPointer(new Coordinates() { Y = -1});
+                    selectedLayer.MoveCurrentPointer(new Coordinates() {Y = -1});
                     break;
                 case ConsoleKey.DownArrow:
-                    selectedLayer.MoveCurrentPointer(new Coordinates() { Y = 1 });
+                    selectedLayer.MoveCurrentPointer(new Coordinates() {Y = 1});
                     break;
                 case ConsoleKey.RightArrow:
-                    selectedLayer.MoveCurrentPointer(new Coordinates() { X = 1 });
+                    selectedLayer.MoveCurrentPointer(new Coordinates() {X = 1});
                     break;
                 case ConsoleKey.LeftArrow:
-                    selectedLayer.MoveCurrentPointer(new Coordinates() { X = -1 });
+                    selectedLayer.MoveCurrentPointer(new Coordinates() {X = -1});
                     break;
                 case ConsoleKey.Enter:
                     //TODO: check if value is valid
@@ -66,6 +66,5 @@ namespace AzMogaTukITam.Model
                     break;
             }
         }
-
     }
 }

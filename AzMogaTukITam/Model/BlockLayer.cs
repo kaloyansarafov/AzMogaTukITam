@@ -1,15 +1,15 @@
-using System;
+﻿using System;
 
 namespace AzMogaTukITam.Model
 {
     public class BlockLayer : LayerBase
     {
-
         public BlockLayer(Grid grid) : base(grid)
-        {}
+        {
+        }
 
         public override int ZIndex { get; protected set; } = 100;
-        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() { Value = '-' } ;
+        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = '-'};
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
         public override int RequiredTurns { get; protected set; } = 0;
@@ -19,6 +19,5 @@ namespace AzMogaTukITam.Model
         // Override props
 
         public void Block(Coordinates cords) => this.Data[cords.Y, cords.X] = true;
-
     }
 }

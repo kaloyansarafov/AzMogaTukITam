@@ -2,7 +2,6 @@
 {
     public abstract class LayerBase
     {
-
         public LayerBase(Grid grid)
         {
             this.Data = new bool[grid.Height, grid.Width];
@@ -21,6 +20,7 @@
         public abstract int RequiredTurns { get; protected set; }
 
         public event EventHandler TurnDone;
+
         protected virtual void OnTurnDone()
         {
             TurnDone?.Invoke(this, new EventArgs());
@@ -29,6 +29,5 @@
         public abstract Action<Game, ConsoleKeyInfo> ConsoleAction { get; protected set; }
 
         public abstract Action<Game> UpdateAction { get; protected set; }
-
     }
 }
