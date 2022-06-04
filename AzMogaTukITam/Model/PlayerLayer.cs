@@ -11,7 +11,7 @@ namespace AzMogaTukITam.Model
 
         public PlayerLayer(Grid grid) : base(grid) {}
 
-        public PlayerLayer(Grid grid, DisplayValue dv, string pn, Cordinates startPosition) : this(grid)
+        public PlayerLayer(Grid grid, DisplayValue dv, string pn, Coordinates startPosition) : this(grid)
         {
             this.DisplayValue = dv;
             this.PlayerName = pn;

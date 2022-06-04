@@ -18,7 +18,7 @@ namespace AzMogaTukITam.Model
 
         // Override props
 
-        public void Block(Cordinates cords) => this.Data[cords.Y, cords.X] = true;
+        public void Block(Coordinates cords) => this.Data[cords.Y, cords.X] = true;
 
     }
 }
