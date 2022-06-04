@@ -33,14 +33,12 @@ Console.WriteLine("1. Single Player");
 Console.WriteLine("2. Multi Player");
 Console.WriteLine("3. Exit");
 var selection = Console.ReadLine();
-Console.WriteLine("Please enter grid size in the format 'height,width'");
-var gridSize = Console.ReadLine();
-var gridSizeArray = gridSize.Split(',');
+int[] gridSize = ReadGridSize();
 
 switch (selection)
 {
  case "1":
-  Game mainGame = new Game(int.Parse(gridSizeArray[0]), int.Parse(gridSizeArray[1]), new GameContext());
+  Game mainGame = new Game(gridSize[0], gridSize[1], new GameContext());
   mainGame.Grid.Layers.Add(new BaseLayer(mainGame.Grid));
   mainGame.Start();
   break;
@@ -51,4 +49,22 @@ switch (selection)
  default:
   Console.WriteLine("Invalid selection");
   break;
+}
+
+
+static int[] ReadGridSize()
+{
+  Console.WriteLine("Please enter grid size in the format 'height,width'");
+  var gridSize = Console.ReadLine();
+  var gridSizeArray = gridSize.Split(',');
+  int height = Int32.Parse(gridSizeArray[0]);
+  int width = Int32.Parse(gridSizeArray[1]);
+  
+  if (height < 3 || width < 3)
+  {
+   Console.WriteLine("Grid size must be at least 3x3");
+   ReadGridSize();
+  }
+
+  return new[] {height, width};
 }
