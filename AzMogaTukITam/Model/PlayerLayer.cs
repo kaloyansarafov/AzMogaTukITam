@@ -8,6 +8,10 @@ namespace AzMogaTukITam.Model
         public static HashSet<int> _attackedColumns = new HashSet<int>();
         public static HashSet<int> _attackedLeftDiagonals = new HashSet<int>();
         public static HashSet<int> _attackedRightDiagonals = new HashSet<int>();
+        public HashSet<int> AttackedRows = new HashSet<int>();
+        public HashSet<int> AttackedColumns = new HashSet<int>();
+        public HashSet<int> AttackedLeftDiagonals = new HashSet<int>();
+        public HashSet<int> AttackedRightDiagonals = new HashSet<int>();
 
         private PlayerLayer(Grid grid) : base(grid)
         {
@@ -31,13 +35,13 @@ namespace AzMogaTukITam.Model
         {
             if (grid.Layers.Where(x => x is PlayerLayer && x.LayerID != LayerID) is IEnumerable<PlayerLayer>
                 playerLayers)
-                foreach (var unused in playerLayers)
+                foreach (var layer in playerLayers)
                 {
                     var positionOccupied =
-                        _attackedRows.Contains(row) ||
-                        _attackedColumns.Contains(col) ||
-                        _attackedLeftDiagonals.Contains(col - row) ||
-                        _attackedRightDiagonals.Contains(col + row);
+                        layer.AttackedRows.Contains(row) ||
+                        layer.AttackedColumns.Contains(col) ||
+                        layer.AttackedLeftDiagonals.Contains(col - row) ||
+                        layer.AttackedRightDiagonals.Contains(col + row);
 
                     if (positionOccupied)
                         return false;
@@ -46,12 +50,23 @@ namespace AzMogaTukITam.Model
             return true;
         }
 
+        public bool IsPlaceSafe(int row, int col)
+        {
+            var positionOccupied =
+                AttackedRows.Contains(row) ||
+                AttackedColumns.Contains(col) ||
+                AttackedLeftDiagonals.Contains(col - row) ||
+                AttackedRightDiagonals.Contains(col + row);
+
+            return !positionOccupied;
+        }
+
         private void MarkPositions(int row, int col)
         {
-            _attackedRows.Add(row);
-            _attackedColumns.Add(col);
-            _attackedLeftDiagonals.Add(col - row);
-            _attackedRightDiagonals.Add(col + row);
+            AttackedRows.Add(row);
+            AttackedColumns.Add(col);
+            AttackedLeftDiagonals.Add(col - row);
+            AttackedRightDiagonals.Add(col + row);
             Data[row, col] = true;
         }
 
