@@ -2,10 +2,10 @@ namespace AzMogaTukITam.Model
 {
     public sealed class PlayerLayer : LayerBase
     {
-        public HashSet<int> AttackedRows = new HashSet<int>();
-        public HashSet<int> AttackedColumns = new HashSet<int>();
-        public HashSet<int> AttackedLeftDiagonals = new HashSet<int>();
-        public HashSet<int> AttackedRightDiagonals = new HashSet<int>();
+        public HashSet<Coordinates> AttackedRows = new();
+        public HashSet<Coordinates> AttackedColumns = new();
+        public HashSet<Coordinates> AttackedLeftDiagonals = new();
+        public HashSet<Coordinates> AttackedRightDiagonals = new();
 
         private PlayerLayer(Grid grid) : base(grid)
         {
