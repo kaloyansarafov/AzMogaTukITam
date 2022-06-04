@@ -41,7 +41,6 @@ public class SelectedLayer : LayerBase
 
     public void ClearCurrentPointer()
     {
-        this.SetCurrentPointer(new Coordinates(){ X = 0, Y = 0 });
         for (int y = 0; y < this.Data.GetLength(0); y++)
             for (int x = 0; x < this.Data.GetLength(1); x++)
                 this.Data[y, x] = false;

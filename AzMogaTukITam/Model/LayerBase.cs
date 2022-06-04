@@ -23,8 +23,7 @@
         public event EventHandler TurnDone;
         protected virtual void OnTurnDone()
         {
-            EventHandler handler = TurnDone;
-            handler?.Invoke(this, new EventArgs());
+            TurnDone?.Invoke(this, new EventArgs());
         }
 
         public abstract Action<Game, ConsoleKeyInfo> ConsoleAction { get; protected set; }

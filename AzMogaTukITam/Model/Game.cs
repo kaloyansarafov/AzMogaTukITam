@@ -5,7 +5,7 @@ namespace AzMogaTukITam.Model
     public class Game
     {
 
-        public const int FRAME_TIME = 100;
+        public const int FRAME_TIME = 500;
 
         private int currentTurn = 0;
         private bool gameEnded = false;
@@ -30,7 +30,7 @@ namespace AzMogaTukITam.Model
                 {
                     this.currentTurn = 0;
                     consoleLayer.TurnDone += TurnHandler;
-                    while(currentTurn != consoleLayer.RequiredTurns - 1)
+                    while(currentTurn <= consoleLayer.RequiredTurns)
                     {
                         var input = Console.ReadKey();
                         consoleLayer.ConsoleAction?.Invoke(this, input);
@@ -89,7 +89,7 @@ namespace AzMogaTukITam.Model
             }
         }
 
-        private void DrawMessage(string message, int duration)
+        public void DrawMessage(string message, int duration)
         {
             
             Console.Clear();

@@ -52,7 +52,7 @@ namespace AzMogaTukITam.Model
             this.Data[row, col] = true;
         }
 
-        public override int ZIndex { get; protected set; } = 0;
+        public override int ZIndex { get; protected set; } = 1;
         public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() { Value = 'X' };
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
