@@ -33,7 +33,7 @@ namespace AzMogaTukITam.Model
 
         private bool CanPlaceQueen(int row, int col, Grid grid)
         {
-            if (grid.Layers.Where(x => x is PlayerLayer && x.LayerID != LayerID) is IEnumerable<PlayerLayer>
+            if (grid.Layers.Where(x => x is PlayerLayer) is IEnumerable<PlayerLayer>
                 playerLayers)
                 foreach (var layer in playerLayers)
                 {
