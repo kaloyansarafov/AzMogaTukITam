@@ -99,8 +99,10 @@
         private void DrawMessage(string message, int duration)
         {
             Console.Clear();
-            Console.WriteLine(
-                $"{Environment.NewLine}{Environment.NewLine}{message}{Environment.NewLine}{Environment.NewLine}");
+            //create border around the message
+            Console.WriteLine($".-{new string('-', message.Length + 2)}-.");
+            Console.WriteLine($"| {message} |");
+            Console.WriteLine($".-{new string('-', message.Length + 2)}-.");
             this.DrawGrid();
             Thread.Sleep(duration);
         }

@@ -52,11 +52,8 @@ namespace AzMogaTukITam.Model
                 AttackedColumns.Contains(col) ||
                 AttackedLeftDiagonals.Contains(col - row) ||
                 AttackedRightDiagonals.Contains(col + row);
-            
-            if (positionOccupied)
-                return false;
-            else
-                return true;
+
+            return !positionOccupied;
         }
 
         private void MarkPositions(int row, int col)
