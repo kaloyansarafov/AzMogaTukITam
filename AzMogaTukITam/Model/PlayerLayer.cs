@@ -1,19 +1,13 @@
 ﻿namespace AzMogaTukITam.Model
 {
-    public sealed class PlayerLayer : LayerBase
-    {
-        public HashSet<int> AttackedRows = new();
-        public HashSet<int> AttackedColumns = new();
-        public HashSet<int> AttackedLeftDiagonals = new();
-        public HashSet<int> AttackedRightDiagonals = new();
+    public sealed class PlayerLayer : LayerBase, IPlayerLayer
+    { 
 
         int _currentTurn = 0;
 
         private PlayerLayer(Grid grid) : base(grid)
         {
-
             this.ConsoleAction = HandleConsole;
-
         }
 
         public PlayerLayer(Grid grid, DisplayValue dv, string pn) : this(grid)
@@ -22,31 +16,14 @@
             PlayerName = pn;
         }
 
-        private bool CanPlaceQueen(int row, int col, Grid grid)
-        {
-            if (grid.Layers.Where(x => x is PlayerLayer).Cast<PlayerLayer>().ToArray() is PlayerLayer[]
-                playerLayers)
-                foreach (var layer in playerLayers)
-                {
-                    var positionOccupied =
-                        layer.AttackedRows.Contains(row) ||
-                        layer.AttackedColumns.Contains(col) ||
-                        layer.AttackedLeftDiagonals.Contains(col - row) ||
-                        layer.AttackedRightDiagonals.Contains(col + row);
-
-                    if (positionOccupied)
-                        return false;
-                }
-
-            return true;
-        }
+        private bool CanPlaceQueen(int row, int col, Grid grid) => grid.Layers.Where(x => x is IPlayerLayer).Cast<IPlayerLayer>().All(x => !x.IsPlaceOccupied(row, col));
 
         public bool IsPlaceOccupied(int row, int col)
         {
-            return (AttackedRows.Contains(row) ||
+            return AttackedRows.Contains(row) ||
                         AttackedColumns.Contains(col) ||
                         AttackedLeftDiagonals.Contains(col - row) ||
-                        AttackedRightDiagonals.Contains(col + row));
+                        AttackedRightDiagonals.Contains(col + row);
         }
 
         private void MarkPositions(int row, int col)
@@ -74,15 +51,19 @@
 
         public string PlayerName { get; private set; }
 
+        public HashSet<int> AttackedRows = new();
+        public HashSet<int> AttackedColumns = new();
+        public HashSet<int> AttackedLeftDiagonals = new();
+        public HashSet<int> AttackedRightDiagonals = new();
+
         // Override props
 
         private void HandleConsole(Game game, ConsoleKeyInfo ki)
         {
-            if (_currentTurn == 0)
-                game.DrawMessage($"{PlayerName} shall choose next!", 2000);
             var selectedLayer = (SelectedLayer)game.Grid.Layers.First(l => l is SelectedLayer);
             if (_currentTurn == 0)
             {
+                game.DrawMessage($"{PlayerName} shall choose next!", 2000);
                 selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width/2 });
                 _currentTurn++;
             }
@@ -111,7 +92,7 @@
                     MarkPositions(selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X);
                     this.Data[selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X] = true;
 
-                    PlayerLayer[] playerLayers = game.Grid.Layers.Where(x => x is PlayerLayer).Cast<PlayerLayer>().ToArray();
+                    IPlayerLayer[] playerLayers = game.Grid.Layers.Where(x => x is IPlayerLayer).Cast<IPlayerLayer>().ToArray();
                     var oponentCanMove = false;
                     for (int i = 0; i < game.Grid.Height; i++)
                         for (int o = 0; o < game.Grid.Width; o++)

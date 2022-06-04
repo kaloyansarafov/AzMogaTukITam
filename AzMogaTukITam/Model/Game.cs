@@ -23,7 +23,6 @@
         {
             LayerBase[] consoleLayers = this.Grid.Layers.Where(x => x.RequiredTurns > 0).OrderBy(x => x.ConsolePriority)
                 .ThenBy(x => x.ZIndex).ThenBy(x => x.LayerID).ToArray();
-            foreach (LayerBase layer in this.Grid.Layers) layer.UpdateAction?.Invoke(this);
             if (consoleLayers is not null)
             {
                 foreach (LayerBase consoleLayer in consoleLayers)
@@ -39,7 +38,6 @@
 
                         Console.Clear();
                         this.DrawGrid();
-                        foreach (LayerBase layer in this.Grid.Layers) layer.UpdateAction?.Invoke(this);
                         if (this._gameEnded) return;
                     }
 
@@ -51,6 +49,7 @@
         private void TurnHandler(object temp, EventArgs args)
         {
             _currentTurn++;
+            foreach (LayerBase layer in this.Grid.Layers) layer.UpdateAction?.Invoke(this);
         }
 
         public void Start()

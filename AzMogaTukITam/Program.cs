@@ -12,19 +12,23 @@ switch (selection)
 {
     case "1":
         gridSize = ReadGridSize();
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.WriteLine("Sry, not implemented!");
-        Console.ForegroundColor = ConsoleColor.White;
-        break;
-    case "2":
-        gridSize = ReadGridSize();
         Game mainGame = new Game(gridSize[0], gridSize[1], new GameContext());
         mainGame.Grid.Layers.Add(new BaseLayer(mainGame.Grid));
         mainGame.Grid.Layers.Add(new BlockLayer(mainGame.Grid));
-        mainGame.Grid.Layers.Add(new PlayerLayer(mainGame.Grid, new DisplayValue() { Value= '⚪', DisplayBackground = ConsoleColor.DarkBlue, DisplayForeground = ConsoleColor.White }, "Player 1"));
-        mainGame.Grid.Layers.Add(new PlayerLayer(mainGame.Grid, new DisplayValue() { Value = '⚪', DisplayBackground = ConsoleColor.DarkRed, DisplayForeground = ConsoleColor.White }, "Player 2"));
+        mainGame.Grid.Layers.Add(new PlayerLayer(mainGame.Grid, new DisplayValue() { Value = 'X', DisplayBackground = ConsoleColor.DarkBlue, DisplayForeground = ConsoleColor.White }, "Player 1"));
+        mainGame.Grid.Layers.Add(new BotLayer(mainGame.Grid, new DisplayValue() { Value = 'X', DisplayBackground = ConsoleColor.DarkRed, DisplayForeground = ConsoleColor.White }, "Bot 1"));
         mainGame.Grid.Layers.Add(new SelectedLayer(mainGame.Grid));
         mainGame.Start();
+        break;
+    case "2":
+        gridSize = ReadGridSize();
+        Game playerGame = new Game(gridSize[0], gridSize[1], new GameContext());
+        playerGame.Grid.Layers.Add(new BaseLayer(playerGame.Grid));
+        playerGame.Grid.Layers.Add(new BlockLayer(playerGame.Grid));
+        playerGame.Grid.Layers.Add(new PlayerLayer(playerGame.Grid, new DisplayValue() { Value= 'X', DisplayBackground = ConsoleColor.DarkBlue, DisplayForeground = ConsoleColor.White }, "Player 1"));
+        playerGame.Grid.Layers.Add(new PlayerLayer(playerGame.Grid, new DisplayValue() { Value = 'X', DisplayBackground = ConsoleColor.DarkRed, DisplayForeground = ConsoleColor.White }, "Player 2"));
+        playerGame.Grid.Layers.Add(new SelectedLayer(playerGame.Grid));
+        playerGame.Start();
         break;
     case "3":
         break;
@@ -44,7 +48,7 @@ static int[] ReadGridSize()
         {
             Console.WriteLine("Please enter the grid dimensions in the format: '[width],[height]'");
             var sizes = Console.ReadLine().Split(",").Select(int.Parse).ToArray();
-            if (sizes.Length != 2 || sizes.Any(x => x > 21 || x < 3)) throw new Exception();
+            if (sizes.Length != 2 || sizes.Any(x => x > 201 || x < 3)) throw new Exception();
             return sizes;
         }
         catch (Exception ex)
