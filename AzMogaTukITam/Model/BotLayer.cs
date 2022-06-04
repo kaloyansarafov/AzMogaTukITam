@@ -33,7 +33,7 @@
 
         private void HandleUpdate(Game game)
         {
-            
+            game.DrawMessage("Bot's thinkong about it...", 1000);   
             var botChoice = FindBestPlace(game.Grid);
             if (botChoice == null) return;
             MarkPositions(botChoice.Y, botChoice.X);
