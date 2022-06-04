@@ -21,6 +21,48 @@
             DisplayValue = dv;
             PlayerName = pn;
         }
+        
+        //algorithm to find the best place to put a queen, where it blocks the most open spaces in the 4 directions and diagonals
+        public Coordinates FindBestPlace(Grid grid)
+        {
+            Coordinates bestPlace = new Coordinates(0, 0);
+            int bestScore = 0;
+            for (int i = 0; i < grid.Height; i++)
+            {
+                for (int j = 0; j < grid.Width; j++)
+                {
+                    if (CanPlaceQueen(i, j, grid))
+                    {
+                        int score = 0;
+                        score += GetScore(i, j, grid, AttackedRows);
+                        score += GetScore(i, j, grid, AttackedColumns);
+                        score += GetScore(i, j, grid, AttackedLeftDiagonals);
+                        score += GetScore(i, j, grid, AttackedRightDiagonals);
+                        if (score > bestScore)
+                        {
+                            bestScore = score;
+                            bestPlace = new Coordinates(i, j);
+                        }
+                    }
+                }
+            }
+            return bestPlace;
+        }
+
+        //returns the score of a place, where it blocks the most open spaces in the 4 directions and diagonals
+        public int GetScore(int row, int column, Grid grid, HashSet<int> set)
+        {
+            int score = 0;
+            for (int i = 0; i < grid.Height; i++)
+            {
+                if (set.Contains(i))
+                {
+                    score++;
+                }
+            }
+            return score;
+        }
+
 
         private bool CanPlaceQueen(int row, int col, Grid grid)
         {
@@ -132,6 +174,7 @@
                     break;
             }
         }
-
+        
+        
     }
 }
