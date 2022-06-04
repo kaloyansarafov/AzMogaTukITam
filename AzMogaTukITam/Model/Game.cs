@@ -8,6 +8,8 @@ namespace AzMogaTukITam.Model
     public class Game
     {
 
+        public const int FRAME_TIME = 100;
+
         private bool gameEnded = false;
         private Action gameEndedAction = () => { };
 
@@ -56,6 +58,7 @@ namespace AzMogaTukITam.Model
                 this.DrawGrid();
                 this.Update();
                 Console.SetCursorPosition(Console.CursorLeft - this.Grid.Width, Console.CursorTop - this.Grid.Height);
+                Thread.Sleep(FRAME_TIME);
             }
             gameEndedAction?.Invoke();
         }
