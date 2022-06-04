@@ -2,6 +2,8 @@ namespace AzMogaTukITam.Model
 {
     public sealed class PlayerLayer : LayerBase
     {
+        private int _currentTurn = 0;
+
         public static HashSet<int> _attackedRows = new HashSet<int>();
         public static HashSet<int> _attackedColumns = new HashSet<int>();
         public static HashSet<int> _attackedLeftDiagonals = new HashSet<int>();
@@ -11,11 +13,10 @@ namespace AzMogaTukITam.Model
         {
         }
 
-        public PlayerLayer(Grid grid, DisplayValue dv, string pn, Coordinates startPosition) : this(grid)
+        public PlayerLayer(Grid grid, DisplayValue dv, string pn) : this(grid)
         {
             DisplayValue = dv;
             PlayerName = pn;
-            Data[startPosition.Y, startPosition.X] = true;
         }
 
         public void PlaceQueen(int row, int col, Grid grid)
@@ -58,12 +59,50 @@ namespace AzMogaTukITam.Model
         public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() { Value = 'X' };
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
-        public override int RequiredTurns { get; protected set; } = 0;
+        public override int RequiredTurns { get; protected set; } = 1;
         public override Action<Game, ConsoleKeyInfo> ConsoleAction { get; protected set; }
         public override Action<Game> UpdateAction { get; protected set; }
 
         public string PlayerName { get; private set; }
 
         // Override props
+
+        private void HandleConsole(Game game, ConsoleKeyInfo ki)
+        {
+            if (_currentTurn == 0)
+                game.DrawMessage($"{PlayerName} shall choose next!", 2000);
+            var selectedLayer = (SelectedLayer)game.Grid.Layers.First(l => l is SelectedLayer);
+            if (_currentTurn == 0)
+            {
+                selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width/2 });
+                _currentTurn++;
+            }
+            switch (ki.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { Y = -1 });
+                    break;
+                case ConsoleKey.DownArrow:
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { Y = 1 });
+                    break;
+                case ConsoleKey.RightArrow:
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { X = 1 });
+                    break;
+                case ConsoleKey.LeftArrow:
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { X = -1 });
+                    break;
+                case ConsoleKey.Enter:
+                    // Check for safe 
+                    this.Data[selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X] = true;
+                    // Block
+                    this.OnTurnDone();
+                    if (_currentTurn <= this.RequiredTurns +1)
+                        selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width/2 });
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }

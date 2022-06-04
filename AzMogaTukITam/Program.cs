@@ -37,7 +37,8 @@ switch (selection)
     case "1":
         Game mainGame = new Game(gridSize[0], gridSize[1], new GameContext());
         mainGame.Grid.Layers.Add(new BaseLayer(mainGame.Grid));
-        mainGame.Grid.Layers.Add(new PlayerInitLayer(mainGame.Grid));
+        mainGame.Grid.Layers.Add(new PlayerLayer(mainGame.Grid, new DisplayValue() { DisplayBackground = ConsoleColor.DarkBlue, DisplayForeground = ConsoleColor.White }, "Player 1"));
+        mainGame.Grid.Layers.Add(new PlayerLayer(mainGame.Grid, new DisplayValue() { DisplayBackground = ConsoleColor.DarkRed, DisplayForeground = ConsoleColor.White }, "Player 2"));
         mainGame.Grid.Layers.Add(new SelectedLayer(mainGame.Grid));
         mainGame.Start();
         break;
