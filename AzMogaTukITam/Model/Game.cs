@@ -24,27 +24,24 @@
             LayerBase[] consoleLayers = this.Grid.Layers.Where(x => x.RequiredTurns > 0).OrderBy(x => x.ConsolePriority)
                 .ThenBy(x => x.ZIndex).ThenBy(x => x.LayerID).ToArray();
             foreach (LayerBase layer in this.Grid.Layers) layer.UpdateAction?.Invoke(this);
-            if (consoleLayers is not null)
+            foreach (LayerBase consoleLayer in consoleLayers)
             {
-                foreach (LayerBase consoleLayer in consoleLayers)
+                this._currentTurn = 0;
+                consoleLayer.TurnDone += TurnHandler;
+                while(this._currentTurn < consoleLayer.RequiredTurns)
                 {
-                    this._currentTurn = 0;
-                    consoleLayer.TurnDone += TurnHandler;
-                    while(this._currentTurn < consoleLayer.RequiredTurns)
-                    {
-                        var input = Console.ReadKey();
-                        consoleLayer.ConsoleAction?.Invoke(this, input);
+                    var input = Console.ReadKey();
+                    consoleLayer.ConsoleAction?.Invoke(this, input);
 
-                        // TODO: FIX
+                    // TODO: FIX
 
-                        Console.Clear();
-                        this.DrawGrid();
-                        foreach (LayerBase layer in this.Grid.Layers) layer.UpdateAction?.Invoke(this);
-                        if (this._gameEnded) return;
-                    }
-
-                    consoleLayer.TurnDone -= TurnHandler;
+                    Console.Clear();
+                    this.DrawGrid();
+                    foreach (LayerBase layer in this.Grid.Layers) layer.UpdateAction?.Invoke(this);
+                    if (this._gameEnded) return;
                 }
+
+                consoleLayer.TurnDone -= TurnHandler;
             }
         }
 

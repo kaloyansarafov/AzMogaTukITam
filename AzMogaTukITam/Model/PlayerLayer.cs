@@ -78,14 +78,15 @@
 
         private void HandleConsole(Game game, ConsoleKeyInfo ki)
         {
-            if (_currentTurn == 0)
-                game.DrawMessage($"{PlayerName} shall choose next!", 2000);
             var selectedLayer = (SelectedLayer)game.Grid.Layers.First(l => l is SelectedLayer);
+            
             if (_currentTurn == 0)
             {
+                game.DrawMessage($"{PlayerName} shall choose next!", 2000);
                 selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width/2 });
                 _currentTurn++;
             }
+            
             switch (ki.Key)
             {
                 case ConsoleKey.UpArrow:
@@ -112,16 +113,13 @@
                     this.Data[selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X] = true;
 
                     PlayerLayer[] playerLayers = game.Grid.Layers.Where(x => x is PlayerLayer).Cast<PlayerLayer>().ToArray();
-                    var oponentCanMove = false;
-                    for (int i = 0; i < game.Grid.Height; i++)
-                        for (int o = 0; o < game.Grid.Width; o++)
-                            if (playerLayers.All(pl => !pl.IsPlaceOccupied(i, o))) oponentCanMove = true;
-                    if (!oponentCanMove)
+                    var opponentCanMove = OpponentCanMove(game, playerLayers);
+                    if (!opponentCanMove)
                         game.EndGame(() => game.DrawMessage($"{PlayerName} Won!", 5000));
 
                     var blockLayer = (BlockLayer)game.Grid.Layers.First(l => l is BlockLayer);
-                    foreach (var Coord in this.GetAttackedCoords(game.Grid))
-                        blockLayer.Block(Coord);
+                    foreach (var coord in this.GetAttackedCoords(game.Grid))
+                        blockLayer.Block(coord);
 
                     this.OnTurnDone();
 
@@ -129,10 +127,16 @@
                         selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width / 2 });
                     else _currentTurn = 0;
                     break;
-                default:
-                    break;
             }
         }
 
+        private static bool OpponentCanMove(Game game, PlayerLayer[] playerLayers)
+        {
+            for (int i = 0; i < game.Grid.Height; i++)
+            for (int o = 0; o < game.Grid.Width; o++)
+                if (playerLayers.All(pl => !pl.IsPlaceOccupied(i, o)))
+                    return true;
+            return false;
+        }
     }
 }
