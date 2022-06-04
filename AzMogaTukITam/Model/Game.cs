@@ -79,7 +79,7 @@
             int rows = tempGrid.GetLength(0);
             int cols = tempGrid.GetLength(1);
 
-            Console.WriteLine($".-{new string('-', (cols * 2) - 1)}-.");
+            Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
             for (int y = 0; y < rows; y++)
             {
                 Console.Write("| ");
@@ -88,11 +88,13 @@
                     var dv = tempGrid[y, x];
                     Console.BackgroundColor = dv.DisplayBackground;
                     Console.ForegroundColor = dv.DisplayForeground;
-                    Console.Write($"{dv.Value} ");
+                    Console.Write($" {dv.Value} ");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 Console.WriteLine("|");
             }
-            Console.WriteLine($".-{new string('-', (cols * 2) - 1)}-.");
+            Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
         }
 
         public void DrawMessage(string message, int duration)

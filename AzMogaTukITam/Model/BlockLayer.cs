@@ -9,7 +9,7 @@ namespace AzMogaTukITam.Model
         }
 
         public override int ZIndex { get; protected set; } = 100;
-        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = '-'};
+        public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = ' ', DisplayBackground = ConsoleColor.DarkGray};
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
         public override int RequiredTurns { get; protected set; } = 0;

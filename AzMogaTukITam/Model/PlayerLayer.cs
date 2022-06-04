@@ -41,6 +41,14 @@ namespace AzMogaTukITam.Model
             return true;
         }
 
+        public bool IsPlaceOccupied(int row, int col)
+        {
+            return (AttackedRows.Contains(row) ||
+                        AttackedColumns.Contains(col) ||
+                        AttackedLeftDiagonals.Contains(col - row) ||
+                        AttackedRightDiagonals.Contains(col + row));
+        }
+
         private void MarkPositions(int row, int col)
         {
             AttackedRows.Add(row);
@@ -49,28 +57,14 @@ namespace AzMogaTukITam.Model
             AttackedRightDiagonals.Add(col + row);
         }
 
-        private void ReturnAttackedCoordinates(Grid grid)
+        private IEnumerable<Coordinates> GetAttackedCoords(Grid grid)
         {
-            List<Coordinates> attackedCoordinates = new();
-
-            foreach (int row in AttackedRows)
-            {
-                for (int i = 0; i < grid.Width; i++)
-                {
-                    attackedCoordinates.Add(new Coordinates(row, i));
-                }
-            }
-
-            foreach (int col in AttackedColumns)
-            {
-                for (int i = 0; i < grid.Height; i++)
-                {
-                    attackedCoordinates.Add(new Coordinates(i, col));
-                }
-            }
+            for (int i = 0; i < grid.Height; i++)
+                for (int o = 0; o < grid.Width; o++)
+                    if (IsPlaceOccupied(i, o)) yield return new Coordinates(i, o);
         }
 
-        public override int ZIndex { get; protected set; } = 1;
+        public override int ZIndex { get; protected set; } = 150;
         public override DisplayValue DisplayValue { get; protected set; } = new DisplayValue() {Value = 'X'};
         public override bool[,] Data { get; protected set; }
         public override int ConsolePriority { get; protected set; } = 0;
@@ -107,16 +101,30 @@ namespace AzMogaTukITam.Model
                     selectedLayer.MoveCurrentPointer(new Coordinates() { X = -1 });
                     break;
                 case ConsoleKey.Enter:
+
                     if (!CanPlaceQueen(selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X, game.Grid))
                     {
-                        game.DrawMessage($"{PlayerName} shall not be placing here, it's either occupied y the oponent or the player himself!", 2000);
+                        game.DrawMessage($"{PlayerName} shall not be placing here, it's either occupied by the opponent or the player himself!", 6000);
                         break;
                     }
+
                     MarkPositions(selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X);
                     this.Data[selectedLayer.CurrentPointer.Y, selectedLayer.CurrentPointer.X] = true;
+
+                    PlayerLayer[] playerLayers = game.Grid.Layers.Where(x => x is PlayerLayer).Cast<PlayerLayer>().ToArray();
+                    var oponentCanMove = false;
+                    for (int i = 0; i < game.Grid.Height; i++)
+                        for (int o = 0; o < game.Grid.Width; o++)
+                            if (playerLayers.All(pl => !pl.IsPlaceOccupied(i, o))) oponentCanMove = true;
+                    if (!oponentCanMove)
+                        game.EndGame(() => game.DrawMessage($"{PlayerName} Won!", 5000));
+
                     var blockLayer = (BlockLayer)game.Grid.Layers.First(l => l is BlockLayer);
-                    //foreach (var Coord in this.get)
+                    foreach (var Coord in this.GetAttackedCoords(game.Grid))
+                        blockLayer.Block(Coord);
+
                     this.OnTurnDone();
+
                     if (_currentTurn <= this.RequiredTurns +1)
                         selectedLayer.SetCurrentPointer(new Coordinates() { Y = game.Grid.Height / 2, X = game.Grid.Width/2 });
                     break;
