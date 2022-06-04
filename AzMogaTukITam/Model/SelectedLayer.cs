@@ -25,29 +25,29 @@ public class SelectedLayer : LayerBase
 
     public Coordinates SetCurrentPointer(Coordinates cord)
     {
-        if (cord.X < 0 || cord.X > this.Data.GetLength(1) || cord.Y < 0 || cord.Y > this.Data.GetLength(0))
+        if (cord.X < 0 || cord.X > Data.GetLength(1) || cord.Y < 0 || cord.Y > Data.GetLength(0))
             return _currentPointer;
-        this.ClearCurrentPointer();
+        ClearCurrentPointer();
         _currentPointer = cord;
-        this.Data[_currentPointer.Y, _currentPointer.X] = true;
+        Data[_currentPointer.Y, _currentPointer.X] = true;
         return _currentPointer;
     }
 
     public Coordinates MoveCurrentPointer(Coordinates rel)
     {
-        if (_currentPointer.X + rel.X < 0 || _currentPointer.X + rel.X >= this.Data.GetLength(1) ||
-            _currentPointer.Y + rel.Y < 0 || _currentPointer.Y + rel.Y >= this.Data.GetLength(0)) return _currentPointer;
-        this.ClearCurrentPointer();
+        if (_currentPointer.X + rel.X < 0 || _currentPointer.X + rel.X >= Data.GetLength(1) ||
+            _currentPointer.Y + rel.Y < 0 || _currentPointer.Y + rel.Y >= Data.GetLength(0)) return _currentPointer;
+        ClearCurrentPointer();
         _currentPointer.X += rel.X;
         _currentPointer.Y += rel.Y;
-        this.Data[_currentPointer.Y, _currentPointer.X] = true;
+        Data[_currentPointer.Y, _currentPointer.X] = true;
         return _currentPointer;
     }
 
     public void ClearCurrentPointer()
     {
-        for (int y = 0; y < this.Data.GetLength(0); y++)
-        for (int x = 0; x < this.Data.GetLength(1); x++)
-            this.Data[y, x] = false;
+        for (int y = 0; y < Data.GetLength(0); y++)
+        for (int x = 0; x < Data.GetLength(1); x++)
+            Data[y, x] = false;
     }
 }
