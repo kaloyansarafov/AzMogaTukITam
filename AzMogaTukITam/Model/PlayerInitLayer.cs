@@ -23,20 +23,20 @@ namespace AzMogaTukITam.Model
         public void SelectPosition(Game game, ConsoleKeyInfo keyInfo)
         {
             var selectedLayer = (SelectedLayer)game.Grid.Layers.First(l => l is SelectedLayer);
-            selectedLayer.SetCurrentPointer(new Cordinates(){ Y = game.Grid.Height / 2, X = game.Grid.Width / 2 });
+            selectedLayer.SetCurrentPointer(new Coordinates(){ Y = game.Grid.Height / 2, X = game.Grid.Width / 2 });
             switch (keyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
-                    selectedLayer.MoveCurrentPointer(new Cordinates() { Y = -1});
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { Y = -1});
                     break;
                 case ConsoleKey.DownArrow:
-                    selectedLayer.MoveCurrentPointer(new Cordinates() { Y = 1 });
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { Y = 1 });
                     break;
                 case ConsoleKey.RightArrow:
-                    selectedLayer.MoveCurrentPointer(new Cordinates() { X = 1 });
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { X = 1 });
                     break;
                 case ConsoleKey.LeftArrow:
-                    selectedLayer.MoveCurrentPointer(new Cordinates() { X = -1 });
+                    selectedLayer.MoveCurrentPointer(new Coordinates() { X = -1 });
                     break;
                 case ConsoleKey.Enter:
                     //TODO: check if value is valid
