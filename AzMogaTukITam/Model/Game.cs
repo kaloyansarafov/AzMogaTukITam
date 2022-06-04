@@ -30,7 +30,7 @@
                 {
                     this._currentTurn = 0;
                     consoleLayer.TurnDone += TurnHandler;
-                    while(this._currentTurn <= consoleLayer.RequiredTurns)
+                    while(this._currentTurn < consoleLayer.RequiredTurns)
                     {
                         var input = Console.ReadKey();
                         consoleLayer.ConsoleAction?.Invoke(this, input);

@@ -15,6 +15,9 @@ namespace AzMogaTukITam.Model
 
         private PlayerLayer(Grid grid) : base(grid)
         {
+
+            this.ConsoleAction = HandleConsole;
+
         }
 
         public PlayerLayer(Grid grid, DisplayValue dv, string pn) : this(grid)
