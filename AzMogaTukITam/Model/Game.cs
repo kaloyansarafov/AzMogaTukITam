@@ -38,7 +38,6 @@
 
                         Console.Clear();
                         this.DrawGrid();
-                        foreach (LayerBase layer in this.Grid.Layers) layer.UpdateAction?.Invoke(this);
                         if (this._gameEnded) return;
                     }
 
