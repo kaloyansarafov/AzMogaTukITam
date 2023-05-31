@@ -6,10 +6,12 @@
         {
             this.Height = h;
             this.Width = w;
+            this.PreviousState = this.ConstructGrid();
         }
 
         public int Height { get; set; }
         public int Width { get; set; }
+        public DisplayValue[,] PreviousState { get; set; }
 
         public List<LayerBase> Layers { get; set; } = new List<LayerBase>();
 
@@ -21,6 +23,7 @@
                 for (int x = 0; x < layer.Data.GetLength(1); x++)
                     if (layer.Data[y, x])
                         finalGrid[y, x] = layer.DisplayValue;
+
             return finalGrid;
         }
     }

@@ -27,6 +27,7 @@
             {
                 foreach (LayerBase consoleLayer in consoleLayers)
                 {
+                    this.Grid.PreviousState = this.Grid.ConstructGrid();
                     this._currentTurn = 0;
                     consoleLayer.TurnDone += TurnHandler;
                     while (this._currentTurn < consoleLayer.RequiredTurns)
@@ -36,7 +37,6 @@
 
                         // TODO: FIX
 
-                        Console.Clear();
                         this.DrawGrid();
                         if (this._gameEnded) return;
                     }
@@ -55,11 +55,9 @@
         public void Start()
         {
             Console.Clear();
-            DrawMessage("Press any button to start as a player! Use Arrow Keys! This message will dissappear in 5 seconds!", 5000);
+            DrawMessage("Use Arrow Keys to move and Enter to place a queen! Press any button to start!", 0);
             while (!this._gameEnded)
             {
-                Console.Clear();
-                this.DrawGrid();
                 this.Update();
                 Thread.Sleep(FRAME_TIME);
             }
@@ -75,37 +73,74 @@
 
         private void DrawGrid()
         {
+            var previousGrid = this.Grid.PreviousState;
             var tempGrid = this.Grid.ConstructGrid();
             int rows = tempGrid.GetLength(0);
             int cols = tempGrid.GetLength(1);
 
-            Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
-            for (int y = 0; y < rows; y++)
+
+            if (previousGrid[0, 0] == null)
             {
-                Console.Write("| ");
-                for (int x = 0; x < cols; x++)
+                Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
+                for (int y = 0; y < rows; y++)
                 {
-                    var dv = tempGrid[y, x];
-                    Console.BackgroundColor = dv.DisplayBackground;
-                    Console.ForegroundColor = dv.DisplayForeground;
-                    Console.Write($" {dv.Value} ");
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("| ");
+                    for (int x = 0; x < cols; x++)
+                    {
+                        var displayValue = tempGrid[y, x];
+                        Console.BackgroundColor = displayValue.DisplayBackground;
+                        Console.ForegroundColor = displayValue.DisplayForeground;
+                        Console.Write($" {displayValue.Value} ");
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    Console.WriteLine("|");
                 }
-                Console.WriteLine("|");
+                Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
             }
-            Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
+            else
+            {
+                Console.SetCursorPosition(1, 4);
+                for (int y = 0; y < rows; y++)
+                {
+                    for (int x = 0; x < cols; x++)
+                    {
+                        Console.SetCursorPosition(x + 1, y + 4);
+
+                        if (previousGrid[y, x] == tempGrid[y, x])
+                        {
+                            var displayValue = tempGrid[y, x];
+                            Console.BackgroundColor = displayValue.DisplayBackground;
+                            Console.ForegroundColor = displayValue.DisplayForeground;
+                            Console.Write($" {displayValue.Value} ");
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                    }
+                }
+            }
         }
 
         public void DrawMessage(string message, int duration)
         {
-            Console.Clear();
-            //create border around the message
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(new string(' ', Console.WindowWidth));
+            Console.WriteLine(new string(' ', Console.WindowWidth));
+            Console.WriteLine(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine($".-{new string('-', message.Length + 2)}-.");
             Console.WriteLine($"| {message} |");
             Console.WriteLine($".-{new string('-', message.Length + 2)}-.");
             this.DrawGrid();
             Thread.Sleep(duration);
+
+            if (duration != 0)
+            {
+                Console.SetCursorPosition(0, 0);
+                Console.WriteLine(new string(' ', Console.WindowWidth));
+                Console.WriteLine(new string(' ', Console.WindowWidth));
+                Console.WriteLine(new string(' ', Console.WindowWidth));
+            }
         }
     }
 }
