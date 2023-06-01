@@ -27,7 +27,6 @@
             {
                 foreach (LayerBase consoleLayer in consoleLayers)
                 {
-                    this.Grid.PreviousState = this.Grid.ConstructGrid();
                     this._currentTurn = 0;
                     consoleLayer.TurnDone += TurnHandler;
                     while (this._currentTurn < consoleLayer.RequiredTurns)
@@ -79,18 +78,18 @@
             int cols = tempGrid.GetLength(1);
 
 
-            if (previousGrid[0, 0] == null)
+            if (previousGrid is null || previousGrid[0, 0] is null)
             {
                 Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
                 for (int y = 0; y < rows; y++)
                 {
-                    Console.Write("| ");
+                    Console.Write("|");
                     for (int x = 0; x < cols; x++)
                     {
-                        var displayValue = tempGrid[y, x];
-                        Console.BackgroundColor = displayValue.DisplayBackground;
-                        Console.ForegroundColor = displayValue.DisplayForeground;
-                        Console.Write($" {displayValue.Value} ");
+                        var currentValue = tempGrid[y, x];
+                        Console.BackgroundColor = currentValue.DisplayBackground;
+                        Console.ForegroundColor = currentValue.DisplayForeground;
+                        Console.Write($" {currentValue.Value} ");
                         Console.BackgroundColor = ConsoleColor.Black;
                         Console.ForegroundColor = ConsoleColor.White;
                     }
@@ -100,25 +99,28 @@
             }
             else
             {
-                Console.SetCursorPosition(1, 4);
                 for (int y = 0; y < rows; y++)
                 {
                     for (int x = 0; x < cols; x++)
                     {
-                        Console.SetCursorPosition(x + 1, y + 4);
+                        var previousValue = previousGrid[y, x];
+                        var currentValue = tempGrid[y, x];
 
-                        if (previousGrid[y, x] == tempGrid[y, x])
+                        if (previousValue.Value != currentValue.Value)
                         {
-                            var displayValue = tempGrid[y, x];
-                            Console.BackgroundColor = displayValue.DisplayBackground;
-                            Console.ForegroundColor = displayValue.DisplayForeground;
-                            Console.Write($" {displayValue.Value} ");
+                            Console.SetCursorPosition((x * 3) + 1, y + 4); // Move the cursor to the current cell
+                            Console.BackgroundColor = currentValue.DisplayBackground;
+                            Console.ForegroundColor = currentValue.DisplayForeground;
+                            Console.Write($" {currentValue.Value} ");
                             Console.BackgroundColor = ConsoleColor.Black;
                             Console.ForegroundColor = ConsoleColor.White;
                         }
                     }
                 }
             }
+
+
+            this.Grid.PreviousState = this.Grid.ConstructGrid();
         }
 
         public void DrawMessage(string message, int duration)
