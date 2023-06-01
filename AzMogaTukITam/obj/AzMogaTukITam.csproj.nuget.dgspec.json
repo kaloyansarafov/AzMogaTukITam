@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maimu\\source\\repos\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj": {}
+    "D:\\Code\\SOFTUNI\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maimu\\source\\repos\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj": {
+    "D:\\Code\\SOFTUNI\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maimu\\source\\repos\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj",
+        "projectUniqueName": "D:\\Code\\SOFTUNI\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj",
         "projectName": "AzMogaTukITam",
-        "projectPath": "C:\\Users\\maimu\\source\\repos\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj",
-        "packagesPath": "C:\\Users\\maimu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maimu\\source\\repos\\AzMogaTukITam\\AzMogaTukITam\\obj\\",
+        "projectPath": "D:\\Code\\SOFTUNI\\AzMogaTukITam\\AzMogaTukITam\\AzMogaTukITam.csproj",
+        "packagesPath": "C:\\Users\\Miyagi\\.nuget\\packages\\",
+        "outputPath": "D:\\Code\\SOFTUNI\\AzMogaTukITam\\AzMogaTukITam\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\maimu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Miyagi\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +25,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.pkg.github.com/SKYWARE-Group/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -49,7 +49,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -58,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

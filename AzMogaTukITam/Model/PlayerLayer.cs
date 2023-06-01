@@ -56,8 +56,6 @@
         public HashSet<int> AttackedLeftDiagonals = new();
         public HashSet<int> AttackedRightDiagonals = new();
 
-        // Override props
-
         private void HandleConsole(Game game, ConsoleKeyInfo ki)
         {
             var selectedLayer = (SelectedLayer)game.Grid.Layers.First(l => l is SelectedLayer);

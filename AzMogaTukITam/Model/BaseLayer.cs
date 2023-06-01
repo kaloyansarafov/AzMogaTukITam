@@ -16,7 +16,5 @@
         public override int RequiredTurns { get; protected set; } = 0;
         public override Action<Game, ConsoleKeyInfo> ConsoleAction { get; protected set; }
         public override Action<Game> UpdateAction { get; protected set; }
-
-        // Override props
     }
 }
