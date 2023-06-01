@@ -21,6 +21,13 @@
 
         public void Update()
         {
+            // The game loop takes all layers which have required turns (players) and iterates over them
+            // When its a player's turn, the consoleAction event for that player is invoked when a key is pressed.
+            // When the player's movement logic is over, it raises the event TurnDone.
+            // A method called TurnHandler is subscribed to the TurnDone event, and is responsible for incrementing the currentTurn var
+            // (it also raises the currently unused UpdateAction event on each layer when called)
+            // When the required amount of turns get accomplished, it moves onto the next layer with required turns
+
             LayerBase[] consoleLayers = this.Grid.Layers.Where(x => x.RequiredTurns > 0).OrderBy(x => x.ConsolePriority)
                 .ThenBy(x => x.ZIndex).ThenBy(x => x.LayerID).ToArray();
             if (consoleLayers is not null)
@@ -33,8 +40,6 @@
                     {
                         var input = Console.ReadKey();
                         consoleLayer.ConsoleAction?.Invoke(this, input);
-
-                        // TODO: FIX
 
                         this.DrawGrid();
                         if (this._gameEnded) return;
@@ -54,7 +59,8 @@
         public void Start()
         {
             Console.Clear();
-            DrawMessage("Use Arrow Keys to move and Enter to place a queen! Press any button to start!", 0);
+            Console.CursorVisible = false;
+            DrawMessage("Use Arrow Keys to move and Enter to place a queen!", 3000);
             while (!this._gameEnded)
             {
                 this.Update();
@@ -80,7 +86,7 @@
 
             if (previousGrid is null || previousGrid[0, 0] is null)
             {
-                Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
+                Console.WriteLine($".-{new string('-', (cols * 3) - 2)}-.");
                 for (int y = 0; y < rows; y++)
                 {
                     Console.Write("|");
@@ -95,7 +101,7 @@
                     }
                     Console.WriteLine("|");
                 }
-                Console.WriteLine($".-{new string('-', (cols * 3) - 1)}-.");
+                Console.WriteLine($".-{new string('-', (cols * 3) - 2)}-.");
             }
             else
             {
@@ -106,9 +112,11 @@
                         var previousValue = previousGrid[y, x];
                         var currentValue = tempGrid[y, x];
 
-                        if (previousValue.Value != currentValue.Value)
+                        if (previousValue.Value != currentValue.Value 
+                            || previousValue.DisplayBackground != currentValue.DisplayBackground 
+                            || previousValue.DisplayForeground != currentValue.DisplayForeground)
                         {
-                            Console.SetCursorPosition((x * 3) + 1, y + 4); // Move the cursor to the current cell
+                            Console.SetCursorPosition((x * 3) + 1, y + 4);
                             Console.BackgroundColor = currentValue.DisplayBackground;
                             Console.ForegroundColor = currentValue.DisplayForeground;
                             Console.Write($" {currentValue.Value} ");
@@ -130,19 +138,16 @@
             Console.WriteLine(new string(' ', Console.WindowWidth));
             Console.WriteLine(new string(' ', Console.WindowWidth));
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine($".-{new string('-', message.Length + 2)}-.");
+            Console.WriteLine($".-{new string('-', message.Length)}-.");
             Console.WriteLine($"| {message} |");
-            Console.WriteLine($".-{new string('-', message.Length + 2)}-.");
+            Console.WriteLine($".-{new string('-', message.Length)}-.");
             this.DrawGrid();
             Thread.Sleep(duration);
 
-            if (duration != 0)
-            {
-                Console.SetCursorPosition(0, 0);
-                Console.WriteLine(new string(' ', Console.WindowWidth));
-                Console.WriteLine(new string(' ', Console.WindowWidth));
-                Console.WriteLine(new string(' ', Console.WindowWidth));
-            }
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine(new string(' ', Console.WindowWidth));
+            Console.WriteLine(new string(' ', Console.WindowWidth));
+            Console.WriteLine(new string(' ', Console.WindowWidth));
         }
     }
 }
